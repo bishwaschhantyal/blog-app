@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
-const { createHmac, randomBytes } = require("crypto");
 const userSchema = new Schema({
   username: {
     type: String,
@@ -13,7 +12,6 @@ const userSchema = new Schema({
   },
   salt: {
     type: String,
-    required: true,
   },
   password: {
     type: String,
@@ -24,26 +22,20 @@ const userSchema = new Schema({
     default: "/img/defaultProfile.png",
   },
   role: {
+    type: String,
     enum: ["USER", "ADMIN"],
     default: "USER",
   },
 });
 
-userSchema.pre("save", async (next) => {
-  console.log("this is from pre save");
+userSchema.pre("save", async function (next) {
   const user = this;
-  console.log(user);
 
   if (!user.isModified("password")) return;
-
-  //   const salt = randomBytes(16).toString();
   const salt = await bcrypt.genSalt(16);
   console.log(salt);
-  
-  const hashedPassword = await bcrypt
-    .hash("sha256", salt)
-    .update(user.password)
-    .digest("hex");
+
+  const hashedPassword = await bcrypt.hash(user.password, salt);
 
   this.salt = salt;
   this.password = hashedPassword;
