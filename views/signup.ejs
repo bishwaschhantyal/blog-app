@@ -20,6 +20,16 @@
 
       .form-label {
         font-weight: bold;
+        font-size: 1.1em;
+      }
+
+      .form-text {
+        font-size: 0.9em;
+        color: #6c757d;
+      }
+
+      .form-check-input {
+        margin-top: 0.3em;
       }
 
       .btn-primary {
@@ -31,55 +41,34 @@
         background-color: #0056b3;
         border-color: #004085;
       }
+
+      a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+      }
+
+      p {
+        margin-top: 1em;
+        font-size: 0.9em;
+      }
+
+      .error {
+        color: red;
+        margin-top: 10px;
+      }
     </style>
   </head>
   <body>
+    <%- include("./partials/nav") %>
     <div class="container">
-      <form action="/user/signup" method="post">
-        <div class="mb-3">
-          <label for="exampleInputUsername1" class="form-label">Username</label>
-          <input
-            type="text"
-            class="form-control"
-            id="exampleInputUsername1"
-            name="username"
-            required
-          />
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label"
-            >Email address</label
-          >
-          <input
-            type="email"
-            class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-            name="email"
-            required
-          />
-          <div id="emailHelp" class="form-text">
-            We'll never share your email with anyone else.
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="exampleInputPassword1"
-            name="password"
-            required
-          />
-        </div>
-        <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-          <label class="form-check-label" for="exampleCheck1"
-            >Check me out</label
-          >
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+      <% if (typeof error !== 'undefined') { %>
+      <div class="error"><%= error %></div>
+      <% } %> <%- include("./partials/signupForm") %>
     </div>
 
     <%- include("./partials/script") %>
